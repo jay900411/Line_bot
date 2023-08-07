@@ -39,5 +39,24 @@ def handle_message(event):
     if message_text == '想知道油價':
         content = oil_price()
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = content))
+        
+############## 封鎖 / 解封 ##############
+@handler.add(FollowEvent)        
+def handle_follow(event):
+    welcome_msg = '''Hello! 您好，歡迎您成為 Master Finance 的好友!
+
+我是Master 財經小幫手
+
+-這裡有股票，匯率資訊喔~
+-直接點及下方【圖中】選單功能
+
+-期待您的光臨!'''
+
+    line_bot_api.reply_message(event.reply_token, TemplateSendMessage(text = welcome_msg))
+                               
+@handler.add(UnfollowEvent)
+def handle_unfollow(event):
+    print(event)
+    
 if __name__ == '__main__':
     app.run()
