@@ -60,7 +60,7 @@ def helper(event):
                 actions = [
                     MessageTemplateAction(
                         label = '油價查詢', 
-                        text = '油價查詢'
+                        text = '想知道油價'
                     ), 
                     MessageTemplateAction(
                         label = '匯率查詢', 
@@ -74,3 +74,4 @@ def helper(event):
             )
         )
     line_bot_api.reply_message(event.reply_token, buttons_template)
+    
