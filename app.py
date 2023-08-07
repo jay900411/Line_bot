@@ -30,7 +30,7 @@ def handle_message(event):
     
     if message_text == '@使用說明':
         about_us_event(event)
-
+        Usage(event)
     # message = TemplateSendMessage(text = event.message.text)
     # line_bot_api.reply_message(event.reply_token, message)
     
