@@ -36,7 +36,7 @@ def handle_message(event):
     elif message_text == '@小幫手':
         helper(event)
     ############## 油價查詢 ##############
-    if event.message.text == '想知道油價':
+    if message_text == '想知道油價':
         content = oil_price()
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = content))
 if __name__ == '__main__':
