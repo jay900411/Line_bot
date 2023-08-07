@@ -26,6 +26,9 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message = TextMessage)
 def handle_message(event):
+    profile = line_bot_api.get_profile(event.source.user_id)
+    uid = profile.user_id
+    
     message_text = str(event.message.text).lower()
     
     if message_text == '@使用說明':
@@ -39,7 +42,10 @@ def handle_message(event):
     if message_text == '想知道油價':
         content = oil_price()
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = content))
-        
+    ############## 股價查詢 ##############
+    if message_text == '股價查詢':
+        line_bot_api.push_message(uid, TextSendMessage("請輸入'#'+'股票代碼'...ex:#0050"))
+    
 ############## 封鎖 / 解封 ##############
 @handler.add(FollowEvent)        
 def handle_follow(event):
