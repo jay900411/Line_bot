@@ -51,13 +51,13 @@ def handle_message(event):
         content = oil_price()
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = content))
     ############## 股價查詢 ##############
-    if message_text == '股價查詢':
+    if message_text == '想知道股價':
         line_bot_api.push_message(uid, TextSendMessage("請輸入'#'+'股票代碼'...ex:#0050"))
         ####################
         ##股價查詢
-    if re.match("想知道股價[0-9]:", msg):
-        stockNumber = msg[2:6]
-        btn_msg = stock_reply_other(stockNumber)
+    if re.match("想知道股價", msg):
+        # stockNumber = msg[2:6]
+        btn_msg = stock_reply_other(msg)
         line_bot_api.push_message(uid, btn_msg)
         return 0
     

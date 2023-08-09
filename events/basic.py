@@ -68,7 +68,7 @@ def helper(event):
                     ),
                     MessageTemplateAction(
                         label = '股價查詢', 
-                        text = '股價查詢'
+                        text = '想知道股價'
                     )
                 ]
             )
