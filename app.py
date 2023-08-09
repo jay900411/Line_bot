@@ -36,7 +36,7 @@ def handle_message(event):
     
     message_text = str(event.message.text).lower()
     
-    msg = str(event.message.text).upper().strip
+    msg = str(event.message.text).upper().strip()
     emsg = event.message.text
     
     if message_text == '@使用說明':
