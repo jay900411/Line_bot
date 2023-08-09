@@ -10,13 +10,13 @@ def stock_reply_other(stockNumber):
                                     QuickReplyButton(
                                         action=MessageAction(
                                             label="# + 股票代號查詢",
-                                            text="#"+stockNumber
+                                            text="#" + stockNumber
                                         )
                                     ),
                                     QuickReplyButton(
                                         action=MessageAction(
                                             label = "K線圖",
-                                            text = "@K"+stockNumber
+                                            text = "@K" + stockNumber
                                         )
                                     ),
                                 ]
