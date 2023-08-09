@@ -14,7 +14,7 @@ def stock_reply_other(stockNumber):
                                         )
                                     ),
                                     QuickReplyButton(
-                                        action=Message(
+                                        action=MessageAction(
                                             label = "K線圖",
                                             text = "@K"+stockNumber
                                         )
