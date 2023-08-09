@@ -2,6 +2,7 @@ from line_bot_api import *
 from events.basic import *
 from events.oil import *
 from events.Msg_Template import *
+from events.EXrate import *
 from model.mongodb import write_my_stock
 import twstock
 import re
@@ -118,6 +119,11 @@ def handle_message(event):
         message = show_Button()
         line_bot_api.reply_message(event.reply_token, message)
         
+    if re.match('換匯[A-Z]{3}/[A-Z{}]', msg):
+        line_bot_api.push_message(uid, TextSendMessage('將為您做外匯計算...'))
+        content = getExchangeRate(msg)
+        line_bot_api.push_message(uid, TextSendMessage(content))
+            
 ############## 封鎖 / 解封 ##############
 @handler.add(FollowEvent)        
 def handle_follow(event):
