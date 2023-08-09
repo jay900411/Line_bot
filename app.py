@@ -67,10 +67,10 @@ def handle_message(event):
         line_bot_api.push_message(uid, TextSendMessage('加入股票代號' + stockNumber))
         content = write_my_stock(uid, user_name, stockNumber, msg[6:7], msg[7:])
         line_bot_api.push_message(uid, TextSendMessage(content))
-    else:
-        content = write_my_stock(uid, user_name, stockNumber, '未設定', '未設定')
-        line_bot_api.push_message(uid, TextSendMessage(content))
-        return 0
+    # else:
+    #     content = write_my_stock(uid, user_name, stockNumber, '未設定', '未設定')
+    #     line_bot_api.push_message(uid, TextSendMessage(content))
+    #     return 0
         
     if (msg.startswith('#')):
         ###############################
@@ -78,39 +78,39 @@ def handle_message(event):
         content = ''
         
         stock_rt = twstock.realtime.get(text)
-        try:
-            my_datetime = datetime.datetime.fromtimestamp(stock_rt['timestamp'] + 8*60*60)
-            my_time = my_datetime.strftime('%H:%M:%S')
-            
-            content += '%s (%s) %s\n' %(
-                stock_rt['info']['name'], 
-                stock_rt['info']['code'], 
-                my_time
-            )
-            content += '現價: %s / 開盤: %s\n'%(
-                stock_rt['realtime']['latest_trade_price'], 
-                stock_rt['realtime']['open']
-            )
-            content += '最高: %s / 最低: %s\n'%(
-                stock_rt['realtime']['high'], 
-                stock_rt['realtime']['low']
-            )
-            content += '量: %s\n' %(stock_rt['realtime']['accumulate_trade_volume'])
-            
-            stock = twstock.Stock(text)
-            content += '-----\n'
-            content += '最近五日價格: \n'
-            price5 = stock.price[-5:][::-1]
-            date5 = stock.date[-5:][::-1]
-            for i in range(len(price5)):
-                content += '[%s] %s\n' %(date5[i].strftime('%Y-%m-%d'), price5[i])
-            line_bot_api.reply_message(
-                event.reply_token, TextSendMessage(text = content)
-            )
-        except stock_rt is None:
-            line_bot_api.reply_message(
-                event.reply_token, TextSendMessage(text="无法获取股票实时数据，请稍后再试。"))
-            return
+        # try:
+        my_datetime = datetime.datetime.fromtimestamp(stock_rt['timestamp'] + 8*60*60)
+        my_time = my_datetime.strftime('%H:%M:%S')
+        
+        content += '%s (%s) %s\n' %(
+            stock_rt['info']['name'], 
+            stock_rt['info']['code'], 
+            my_time
+        )
+        content += '現價: %s / 開盤: %s\n'%(
+            stock_rt['realtime']['latest_trade_price'], 
+            stock_rt['realtime']['open']
+        )
+        content += '最高: %s / 最低: %s\n'%(
+            stock_rt['realtime']['high'], 
+            stock_rt['realtime']['low']
+        )
+        content += '量: %s\n' %(stock_rt['realtime']['accumulate_trade_volume'])
+        
+        stock = twstock.Stock(text)
+        content += '-----\n'
+        content += '最近五日價格: \n'
+        price5 = stock.price[-5:][::-1]
+        date5 = stock.date[-5:][::-1]
+        for i in range(len(price5)):
+            content += '[%s] %s\n' %(date5[i].strftime('%Y-%m-%d'), price5[i])
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text = content)
+        )
+        # except stock_rt is None:
+        #     line_bot_api.reply_message(
+        #         event.reply_token, TextSendMessage(text="無法獲取股票實時數據，請稍再試。"))
+        #     return
 ############## 封鎖 / 解封 ##############
 @handler.add(FollowEvent)        
 def handle_follow(event):
