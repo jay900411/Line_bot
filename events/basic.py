@@ -64,7 +64,7 @@ def helper(event):
                     ), 
                     MessageTemplateAction(
                         label = '匯率查詢', 
-                        text = '匯率查詢'
+                        text = '幣別種類'
                     ),
                     MessageTemplateAction(
                         label = '股價查詢', 

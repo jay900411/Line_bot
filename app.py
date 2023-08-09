@@ -55,7 +55,7 @@ def handle_message(event):
     ############## 股價查詢 ##############
     if message_text == '想知道股價':
         line_bot_api.push_message(uid, TextSendMessage("請輸入'#'+'股票代碼'...ex:#0050"))
-        line_bot_api.push_message(uid, TextSendMessage("輸入'股票查詢' + '股票代碼'可查詢更多(K線圖...)"))
+        line_bot_api.push_message(uid, TextSendMessage("或輸入'股票查詢' + '股票代碼'\n可查詢更多(K線圖...)"))
     if re.match("股票查詢", msg):
         msg = msg[4:]
         btn_msg = stock_reply_other(msg)
@@ -68,6 +68,7 @@ def handle_message(event):
         content = write_my_stock(uid, user_name, stockNumber, msg[6:7], msg[7:])
         line_bot_api.push_message(uid, TextSendMessage(content))
     # else:
+    #     stockNumber = 0
     #     content = write_my_stock(uid, user_name, stockNumber, '未設定', '未設定')
     #     line_bot_api.push_message(uid, TextSendMessage(content))
     #     return 0
@@ -109,8 +110,14 @@ def handle_message(event):
         )
         # except stock_rt is None:
         #     line_bot_api.reply_message(
-        #         event.reply_token, TextSendMessage(text="無法獲取股票實時數據，請稍再試。"))
+        #         event.reply_token, TextSendMessage(text="无法获取股票实时数据，请稍后再试。"))
         #     return
+        
+        ############## 匯率 ###########
+        if re.match('幣別種類', emsg):
+            message = show_Button()
+            line_bot_api.reply_message(event.reply_token, message)
+            
 ############## 封鎖 / 解封 ##############
 @handler.add(FollowEvent)        
 def handle_follow(event):
