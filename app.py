@@ -55,7 +55,7 @@ def handle_message(event):
     ############## 股價查詢 ##############
     if message_text == '想知道股價':
         line_bot_api.push_message(uid, TextSendMessage("請輸入'#'+'股票代碼'...ex:#0050"))
-
+        line_bot_api.push_message(uid, TextSendMessage("輸入'股票查詢' + '股票代碼'可查詢更多(K線圖...)"))
     if re.match("股票查詢", msg):
         msg = msg[4:]
         btn_msg = stock_reply_other(msg)
