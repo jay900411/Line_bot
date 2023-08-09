@@ -2,6 +2,7 @@ from line_bot_api import *
 from events.basic import *
 from events.oil import *
 from events.Msg_Template import *
+from model.mongodb import write_my_stock
 import twstock
 import re
 import datetime
@@ -38,6 +39,7 @@ def handle_message(event):
     
     msg = str(event.message.text).upper().strip()
     emsg = event.message.text
+    user_name = profile.display_name
     
     if message_text == '@使用說明':
         about_us_event(event)
@@ -54,47 +56,60 @@ def handle_message(event):
     if message_text == '想知道股價':
         line_bot_api.push_message(uid, TextSendMessage("請輸入'#'+'股票代碼'...ex:#0050"))
 
-    if re.match("股價查詢", msg):
+    if re.match("股票查詢", msg):
         msg = msg[4:]
         btn_msg = stock_reply_other(msg)
         line_bot_api.push_message(uid, btn_msg)
         return 0
     
+    if re.match('關注[0-9]{4}[<>][0-9]', msg):
+        stockNumber = msg[2:]
+        content = write_my_stock(uid, user_name, stockNumber, msg[6:7], msg[7:])
+        line_bot_api.push_message(uid, TextSendMessage(content))
+    else:
+        content = write_my_stock(uid, user_name, stockNumber, '未設定', '未設定')
+        line_bot_api.push_message(uid, TextSendMessage(content))
+        return 0
+        
     if (msg.startswith('#')):
         ###############################
         text=msg[1:]
         content = ''
         
         stock_rt = twstock.realtime.get(text)
-        my_datetime = datetime.datetime.fromtimestamp(stock_rt['timestamp'] + 8*60*60)
-        my_time = my_datetime.strftime('%H:%M:%S')
-        
-        content += '%s (%s) %s\n' %(
-            stock_rt['info']['name'], 
-            stock_rt['info']['code'], 
-            my_time
-        )
-        content += '現價: %s / 開盤: %s\n'%(
-            stock_rt['realtime']['latest_trade_price'], 
-            stock_rt['realtime']['open']
-        )
-        content += '最高: %s / 最低: %s\n'%(
-            stock_rt['realtime']['high'], 
-            stock_rt['realtime']['low']
-        )
-        content += '量: %s\n' %(stock_rt['realtime']['accumulate_trade_volume'])
-        
-        stock = twstock.Stock(text)
-        content += '-----\n'
-        content += '最近五日價格: \n'
-        price5 = stock.price[-5:][::-1]
-        date5 = stock.date[-5:][::-1]
-        for i in range(len(price5)):
-            content += '[%s] %s\n' %(date5[i].strftime('%Y-%m-%d'), price5[i])
-        line_bot_api.reply_message(
-            event.reply_token, TextSendMessage(text = content)
-        )
-    
+        try:
+            my_datetime = datetime.datetime.fromtimestamp(stock_rt['timestamp'] + 8*60*60)
+            my_time = my_datetime.strftime('%H:%M:%S')
+            
+            content += '%s (%s) %s\n' %(
+                stock_rt['info']['name'], 
+                stock_rt['info']['code'], 
+                my_time
+            )
+            content += '現價: %s / 開盤: %s\n'%(
+                stock_rt['realtime']['latest_trade_price'], 
+                stock_rt['realtime']['open']
+            )
+            content += '最高: %s / 最低: %s\n'%(
+                stock_rt['realtime']['high'], 
+                stock_rt['realtime']['low']
+            )
+            content += '量: %s\n' %(stock_rt['realtime']['accumulate_trade_volume'])
+            
+            stock = twstock.Stock(text)
+            content += '-----\n'
+            content += '最近五日價格: \n'
+            price5 = stock.price[-5:][::-1]
+            date5 = stock.date[-5:][::-1]
+            for i in range(len(price5)):
+                content += '[%s] %s\n' %(date5[i].strftime('%Y-%m-%d'), price5[i])
+            line_bot_api.reply_message(
+                event.reply_token, TextSendMessage(text = content)
+            )
+        except stock_rt is None:
+            line_bot_api.reply_message(
+                event.reply_token, TextSendMessage(text="无法获取股票实时数据，请稍后再试。"))
+            return
 ############## 封鎖 / 解封 ##############
 @handler.add(FollowEvent)        
 def handle_follow(event):
