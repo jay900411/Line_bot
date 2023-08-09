@@ -114,10 +114,10 @@ def handle_message(event):
         #     return
         
         ############## 匯率 ###########
-        if re.match('幣別種類', emsg):
-            message = show_Button()
-            line_bot_api.reply_message(event.reply_token, message)
-            
+    if re.match('幣別種類', emsg):
+        message = show_Button()
+        line_bot_api.reply_message(event.reply_token, message)
+        
 ############## 封鎖 / 解封 ##############
 @handler.add(FollowEvent)        
 def handle_follow(event):
