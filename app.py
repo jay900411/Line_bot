@@ -3,7 +3,7 @@ from events.basic import *
 from events.oil import *
 from events.Msg_Template import *
 from events.EXrate import *
-from model.mongodb import write_my_stock
+from model.mongodb import *
 import twstock
 import re
 import datetime
@@ -67,6 +67,10 @@ def handle_message(event):
         stockNumber = msg[2:]
         line_bot_api.push_message(uid, TextSendMessage('加入股票代號' + stockNumber))
         content = write_my_stock(uid, user_name, stockNumber, msg[6:7], msg[7:])
+        line_bot_api.push_message(uid, TextSendMessage(content))
+    if re.match('股票清單', msg):
+        line_bot_api.push_message(uid, TextSendMessage('稍等一下，查詢中...'))
+        content = show_stock_setting(user_name, uid) 
         line_bot_api.push_message(uid, TextSendMessage(content))
     # else:
     #     stockNumber = 0
