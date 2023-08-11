@@ -123,6 +123,10 @@ def handle_message(event):
         line_bot_api.push_message(uid, TextSendMessage('將為您做外匯計算...'))
         content = getExchangeRate(msg)
         line_bot_api.push_message(uid, TextSendMessage(content))
+    if re.match('查詢匯率[A-Z]{3}', msg):
+        msg = msg[4:]
+        content = showCurrency(msg)
+        line_bot_api.push_message(uid, TextSendMessage(content))
             
 ############## 封鎖 / 解封 ##############
 @handler.add(FollowEvent)        
