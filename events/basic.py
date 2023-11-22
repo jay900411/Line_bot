@@ -48,7 +48,7 @@ def Usage(event):
                 \n\
                 \n(´･･)ﾉ油價通知 ❁ 輸入查詢油價 \
                 \n(._.`)匯率通知 ❁ 輸入查詢匯率 \
-                \n(´◡`)匯率兌換 ❁ 換匯USD/TWD \
+                \n(´◡`)匯率兌換 ❁ 換匯USD/TWD/金額(ex.:100) \
                 \n( '◡' )股價查詢 ❁ 輸入#股票代碼 ")
 def helper(event):
     buttons_template = TemplateSendMessage(
