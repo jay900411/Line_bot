@@ -39,7 +39,7 @@ def push_msg(event, msg):
     except:
         room_id = event.source.room_id
         line_bot_api.push_message(room_id, TextSendMessage(text = msg))
-        
+
 def Usage(event):
     push_msg(event, "🔍查詢方法🔎\
                 \n\
@@ -83,5 +83,5 @@ def encourager(event) :
         encourage = [random.choice(messages)]
     else:
         encourage = random.sample(messages, k=random.randint(1, 3))
-    push_msg(event, encourage)
+    push_msg(event, '\n'.join(encourage))
         
