@@ -84,5 +84,5 @@ def encourager(event) :
     else:
         encourage = random.sample(messages, k=random.randint(1, 3))
     for i in encourage:
-        push_msg(event, i))
+        push_msg(event, i)
         
