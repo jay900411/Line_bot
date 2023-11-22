@@ -74,4 +74,8 @@ def helper(event):
             )
         )
     line_bot_api.reply_message(event.reply_token, buttons_template)
-    
+def encourager(event) :
+    messages = ['加油！是為了自己呢！', '你很棒！可以的！', '你很努力喔！值得值得！', '今天是艱難的一天 但你撐住了！']
+    selected_message = random.choice(messages)
+    return selected_message
+        
