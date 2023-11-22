@@ -81,10 +81,12 @@ def encourager(event) :
                 '一天就24小時 你不要想活成26小時！','前面的路崎嶇難行 後方的小姊姊問我：細狗你行不行！']
 
     # 45%的機會挑選一句，55%的機會挑選2~3句
-    if random.random() < 0.45:
+    if random.random() < 0.4:
         encourage = [random.choice(messages)]
+    elif 0.4 <= random.random() < 0.8:
+        encourage = random.sample(messages, k = 2)
     else:
-        encourage = random.sample(messages, k = random.randint(2, 3))
+        encourage = random.sample(messages, k = 3)
     for i in encourage:
         push_msg(event, i)
         time.sleep(0.45)
