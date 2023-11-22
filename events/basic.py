@@ -76,13 +76,14 @@ def helper(event):
     line_bot_api.reply_message(event.reply_token, buttons_template)
 def encourager(event) :
     messages = ['加油！是為了自己呢！', '你很棒！可以的！', '你很努力喔！值得值得！', '今天是艱難的一天 但你撐住了！', 
-                '覺得累嗎！好好休息重新出發！', '一是嬰兒哭啼..二是別放棄！放鬆一下再繼續！！', '你說你很累..但你還能睡！', '你是溫柔的人 但對自己不能太溫柔喔！']
+                '覺得累嗎！好好休息重新出發！', '一是嬰兒哭啼..二是別放棄！放鬆一下再繼續！！', '你說你很累..但你還能睡！', 
+                '你是溫柔的人 但對自己不能太溫柔喔！', '']
 
-    # 50%的機會挑選一句，50%的機會挑選1~3句
-    if random.random() < 0.5:
+    # 45%的機會挑選一句，55%的機會挑選2~3句
+    if random.random() < 0.45:
         encourage = [random.choice(messages)]
     else:
-        encourage = random.sample(messages, k=random.randint(1, 3))
+        encourage = random.sample(messages, k = random.randint(2, 3))
     for i in encourage:
         push_msg(event, i)
         
