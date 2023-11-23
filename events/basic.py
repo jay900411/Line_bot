@@ -91,4 +91,21 @@ def encourager(event) :
     for i in encourage:
         push_msg(event, i)
         time.sleep(0.45)
+
+#### 
+def encou(event) :
+    messages = ['加油！子庭！', '明天演出順利！可以的！', '被妳教的學生真幸福', '今天是艱難的一天 但你撐住了！', 
+                '記得好好休息！明天才有體力敲敲敲啊！！', '聽說妳愛驚嘆號...所以我要給妳...！！！！！！！' ]
+
+    # 45%的機會挑選一句，55%的機會挑選2~3句
+    prob = random.random()
+    if prob < 0.33:
+        encourage = [random.choice(messages)]
+    elif 0.33 <= prob < 0.83:
+        encourage = random.sample(messages, k = 2)
+    else:
+        encourage = random.sample(messages, k = 3)
+    for i in encourage:
+        push_msg(event, i)
+        time.sleep(0.45)
         
