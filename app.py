@@ -51,6 +51,8 @@ def handle_message(event):
         helper(event)
     elif message_text == '說點什麼！':
         encourager(event)
+    elif message_text == '對子庭說些話！':
+        encou(event)
     ############## 油價查詢 ##############
     if message_text == '想知道油價':
         content = oil_price()
